@@ -1,13 +1,13 @@
 import connection from "../dbStrategy/database.js";
+import categoriesSchema from "../schemas/categoriesSchema.js";
 
-export async function categoriesMiddleware(req, res, next) {
+export async function validateCategories(req, res, next) {
     const { name } = req.body;
 
-    if(!name) {
-        return res.status(400).send("O nome não pode estar vazio!");
-    }
-
     try {
+        const validation = categoriesSchema.validate(name);
+        if(validation.error) return res.sendStatus(400);
+
         const { rows } = await connection.query('SELECT * FROM categories WHERE name = $1', [name]);
         if(rows.length !== 0) {
             return res.status(409).send("Categoria já cadastrada!");
