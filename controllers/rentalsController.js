@@ -44,7 +44,6 @@ export async function listRentals(req, res) {
 
     return res.send(rentals);
   } catch (error) {
-    console.log(error);
     res.sendStatus(500);
   }
 }
@@ -78,7 +77,6 @@ export async function insertRental(req, res) {
 
     res.sendStatus(201);
   } catch (error) {
-    console.log(error);
     res.sendStatus(500);
   }
 }
@@ -116,7 +114,6 @@ export async function returnRental(req, res) {
 
     res.sendStatus(200);
   } catch (error) {
-    console.log(error);
     res.sendStatus(500);
   }
 }
@@ -129,7 +126,6 @@ export async function deleteRental(req, res) {
 
     res.sendStatus(200);
   } catch (error) {
-    console.log(error);
     res.sendStatus(500);
   }
 }
