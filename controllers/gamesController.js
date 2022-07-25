@@ -24,15 +24,6 @@ export async function listGames(req, res) {
     const { name, image, stockTotal, categoryId, pricePerDay } = req.body;
   
     try {
-      const { rows: gameExist } = await connection.query(
-        "SELECT * FROM games WHERE name = $1;",
-        [name]
-      );
-  
-      if (gameExist.length !== 0) {
-        return res.sendStatus(409);
-      }
-  
       await connection.query(
         `INSERT INTO games(name, image, "stockTotal", "categoryId", "pricePerDay") VALUES ($1, $2, $3, $4, $5);`,
         [name, image, Number(stockTotal), categoryId, Number(pricePerDay)]
