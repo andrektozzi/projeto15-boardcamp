@@ -92,7 +92,8 @@ export async function returnRental(req, res) {
     let delayFee = 0;
 
     const { rows: rentals } = await connection.query(
-      `SELECT * FROM rentals WHERE id = $1`, [id]
+      `SELECT * FROM rentals WHERE id = $1`,
+      [id]
     );
     const { rentDate, daysRented, gameId } = rentals[0];
 
@@ -103,24 +104,25 @@ export async function returnRental(req, res) {
 
     const diffDays = dayNow.diff(rentDate, "days");
 
-    if(diffDays > daysRented) {
+    if (diffDays > daysRented) {
       const diffDaysFee = diffDays - daysRented;
       delayFee = diffDaysFee * pricePerDay;
     }
 
     await connection.query(
-      `UPDATE rentals SET "returnDate" = $1, "delayFee" = $2 WHERE id = $3;`, [returnDate, delayFee, id]
+      `UPDATE rentals SET "returnDate" = $1, "delayFee" = $2 WHERE id = $3;`,
+      [returnDate, delayFee, id]
     );
 
     res.sendStatus(200);
-
   } catch (error) {
+    console.log(error);
     res.sendStatus(500);
   }
 }
 
 export async function deleteRental(req, res) {
-    const { id } = req.params;
+  const id = parseInt(req.params.id);
 
   try {
     await connection.query(`DELETE FROM rentals WHERE id = $1`, [id]);
